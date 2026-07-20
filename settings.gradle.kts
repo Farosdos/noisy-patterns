@@ -12,7 +12,10 @@ pluginManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version ("0.7.0")
 }
-        }
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        mavenCentral()
     }
     versionCatalogs {
         create("libs") {
@@ -22,7 +25,6 @@ plugins {
             bundle("fawe", listOf("fawe-core", "fawe-bukkit"))
             library("paper", "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
             library("jlibnoise", "com.sk89q.lib:jlibnoise:1.0.0")
-            // plugins
             plugin("spotless", "com.diffplug.spotless").version("6.25.0")
             plugin("publishdata", "de.chojo.publishdata").version("1.4.0")
             plugin("pluginyml", "net.minecrell.plugin-yml.bukkit").version("0.6.0")
