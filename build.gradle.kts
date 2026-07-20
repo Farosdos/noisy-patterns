@@ -1,5 +1,4 @@
 import groovy.json.JsonSlurper
-import io.papermc.hangarpublishplugin.model.Platforms
 
 plugins {
     java
@@ -45,28 +44,6 @@ spotless {
 
 publishData {
     addBuildData()
-    useEldoNexusRepos()
-    publishComponent("java")
-}
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        publishData.configurePublication(this)
-    }
-
-    repositories {
-        maven {
-            authentication {
-                credentials(PasswordCredentials::class) {
-                    username = System.getenv("NEXUS_USERNAME")
-                    password = System.getenv("NEXUS_PASSWORD")
-                }
-            }
-
-            setUrl(publishData.getRepository())
-            name = "EldoNexus"
-        }
-    }
 }
 
 tasks {
@@ -77,7 +54,6 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
-
     // copied from PlotSquared
     register("cacheLatestFaweArtifact") {
         val lastSuccessfulBuildUrl = uri("https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/api/json").toURL()
@@ -87,7 +63,6 @@ tasks {
                 .firstOrNull { it.contains("Bukkit") }
         project.ext["faweArtifact"] = artifact
     }
-
     runServer {
         dependsOn(getByName("cacheLatestFaweArtifact"))
         jvmArgs("-DPaper.IgnoreJavaVersion=true", "-Dcom.mojang.eula.agree=true")
