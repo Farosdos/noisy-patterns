@@ -12,6 +12,14 @@ version = "1.0.2"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/Farosdos/jlibnoise")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
