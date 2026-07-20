@@ -1,11 +1,8 @@
-import groovy.json.JsonSlurper
-
 plugins {
     java
     id("com.gradleup.shadow") version "8.3.5"
     alias(libs.plugins.spotless)
     alias(libs.plugins.pluginyml)
-    alias(libs.plugins.publishdata)
     `maven-publish`
 }
 
@@ -41,10 +38,6 @@ spotless {
     }
 }
 
-publishData {
-    addBuildData()
-}
-
 tasks {
     shadowJar {
         relocate("net.royawesome.jlibnoise", "de.sirywell.noisypatterns.libs.jlibnoise")
@@ -61,7 +54,7 @@ tasks {
 bukkit {
     name = "NoisyPatterns"
     author = "SirYwell"
-    version = publishData.getVersion(true)
+    version = project.version.toString()
     main = "de.sirywell.noisypatterns.NoisyPatternsPlugin"
     depend = listOf("FastAsyncWorldEdit")
     apiVersion = "1.16"
