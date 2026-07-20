@@ -12,17 +12,6 @@ pluginManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version ("0.7.0")
 }
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
-    repositories {
-        mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Farosdos/jlibnoise")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
         }
     }
     versionCatalogs {
