@@ -2,7 +2,6 @@ import groovy.json.JsonSlurper
 
 plugins {
     java
-    id("xyz.jpenilla.run-paper") version "2.2.3"
     id("com.gradleup.shadow") version "8.3.5"
     alias(libs.plugins.spotless)
     alias(libs.plugins.pluginyml)
@@ -53,23 +52,6 @@ tasks {
     }
     build {
         dependsOn(shadowJar)
-    }
-    // copied from PlotSquared
-    register("cacheLatestFaweArtifact") {
-        val lastSuccessfulBuildUrl = uri("https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/api/json").toURL()
-        val artifact = ((JsonSlurper().parse(lastSuccessfulBuildUrl) as Map<*, *>)["artifacts"] as List<*>)
-                .map { it as Map<*, *> }
-                .map { it["fileName"] as String }
-                .firstOrNull { it.contains("Bukkit") }
-        project.ext["faweArtifact"] = artifact
-    }
-    runServer {
-        dependsOn(getByName("cacheLatestFaweArtifact"))
-        jvmArgs("-DPaper.IgnoreJavaVersion=true", "-Dcom.mojang.eula.agree=true")
-        downloadPlugins {
-            url("https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/artifact/artifacts/${project.ext["faweArtifact"]}")
-        }
-        minecraftVersion("1.20.4")
     }
     test {
         useJUnitPlatform()
