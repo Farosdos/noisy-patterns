@@ -20,9 +20,10 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("com.intellectualsites.bom:bom-newest:1.42")) // Ref: https://github.com/IntellectualSites/bom
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.42"))
     compileOnly(libs.bundles.fawe)
     compileOnly(libs.paper)
+    implementation(libs.jlibnoise)
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
@@ -69,6 +70,14 @@ publishing {
 }
 
 tasks {
+    shadowJar {
+        relocate("net.royawesome.jlibnoise", "de.sirywell.noisypatterns.libs.jlibnoise")
+        archiveClassifier.set("")
+    }
+    build {
+        dependsOn(shadowJar)
+    }
+
     // copied from PlotSquared
     register("cacheLatestFaweArtifact") {
         val lastSuccessfulBuildUrl = uri("https://ci.athion.net/job/FastAsyncWorldEdit/lastSuccessfulBuild/api/json").toURL()
