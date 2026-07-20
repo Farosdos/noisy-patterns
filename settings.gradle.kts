@@ -36,8 +36,6 @@ dependencyResolutionManagement {
             plugin("spotless", "com.diffplug.spotless").version("6.25.0")
             plugin("publishdata", "de.chojo.publishdata").version("1.4.0")
             plugin("pluginyml", "net.minecrell.plugin-yml.bukkit").version("0.6.0")
-            plugin("hangar", "io.papermc.hangar-publish-plugin").version("0.1.2")
-            plugin("modrinth", "com.modrinth.minotaur").version("2.8.7")
             plugin("runserver", "xyz.jpenilla.run-paper").version("2.2.3")
         }
     }
