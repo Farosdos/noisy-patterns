@@ -4,9 +4,8 @@ import io.papermc.hangarpublishplugin.model.Platforms
 plugins {
     java
     id("xyz.jpenilla.run-paper") version "2.2.3"
+    id("com.gradleup.shadow") version "8.3.5"
     alias(libs.plugins.spotless)
-    alias(libs.plugins.hangar)
-    alias(libs.plugins.modrinth)
     alias(libs.plugins.pluginyml)
     alias(libs.plugins.publishdata)
     `maven-publish`
@@ -91,43 +90,6 @@ tasks {
     test {
         useJUnitPlatform()
     }
-}
-
-hangarPublish {
-    publications.register("plugin") {
-        version.set(publishData.getVersion())
-        id = "NoisyPatterns"
-        channel = System.getenv("HANGAR_CHANNEL")
-
-        apiKey = System.getenv("HANGAR_KEY")
-
-        platforms {
-            register(Platforms.PAPER) {
-                jar.set(tasks.jar.flatMap { it.archiveFile })
-                platformVersions.set(listOf("1.16.5-1.20.4"))
-                this.dependencies {
-                    hangar("FastAsyncWorldEdit") {
-                        required = true
-                    }
-                }
-            }
-        }
-
-    }
-}
-
-modrinth {
-    token.set(System.getenv("MODRINTH_TOKEN"))
-    projectId.set("QeTYqlgP")
-    versionNumber.set(publishData.getVersion())
-    versionType.set(System.getenv("MODRINTH_CHANNEL"))
-    uploadFile.set(tasks.jar)
-    gameVersions.addAll(listOf("1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.4"))
-    loaders.addAll(listOf("paper", "spigot"))
-    dependencies {
-        required.project("FastAsyncWorldEdit")
-    }
-    syncBodyFrom = rootProject.file("README.md").reader().readText()
 }
 
 bukkit {
